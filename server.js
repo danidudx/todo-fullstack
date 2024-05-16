@@ -68,12 +68,16 @@ app.put('/tasks/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    console.log('Attempting to update task with ID:', id);
     const task = await Task.findById(id);
     if (task) {
-      console.log('Found task:', task);
+      // Update title and completed as before
       if (req.body.title) task.title = req.body.title;
       if (req.body.completed !== undefined) task.completed = req.body.completed;
+
+      // Update date and priority if provided in the request body
+      if (req.body.date) task.date = new Date(req.body.date);
+      if (req.body.priority) task.priority = req.body.priority;
+
       await task.save();
       console.log('Task updated successfully:', task);
       res.json(task);

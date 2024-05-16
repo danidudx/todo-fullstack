@@ -82,19 +82,18 @@ function renderTask(task) {
 function openEditForm(task) {
   //form for editing task details
   const form = document.createElement('form');
-  form.innerHTML = `
-    <label for="editTitle">Title:</label>
-    <input type="text" id="editTitle" value="${task.title}">
-    <label for="editDate">Date:</label>
-    <input type="date" id="editDate" value="${task.date}">
-    <label for="editPriority">Priority:</label>
-    <select id="editPriority">
-      <option value="High" ${task.priority === 'High' ? 'selected' : ''}>High</option>
-      <option value="Mid" ${task.priority === 'Mid' ? 'selected' : ''}>Mid</option>
-      <option value="Low" ${task.priority === 'Low' ? 'selected' : ''}>Low</option>
-    </select>
-    <button type="submit">Save</button>
-  `;
+form.innerHTML = `
+  <label for="editTitle">Title:</label>
+  <input type="text" id="editTitle" value="${task.title}">
+  <label for="editDate">Date:</label>
+  <input type="date" id="editDate" value="${task.date}">  <label for="editPriority">Priority:</label>
+  <select id="editPriority">
+    <option value="High" ${task.priority === 'High' ? 'selected' : ''}>High</option>
+    <option value="Mid" ${task.priority === 'Mid' ? 'selected' : ''}>Mid</option>
+    <option value="Low" ${task.priority === 'Low' ? 'selected' : ''}>Low</option>
+  </select>
+  <button type="submit">Save</button>
+`;
 
   // Prevent form collapse when clicking on form fields
   form.querySelectorAll('input, select').forEach(field => {
@@ -150,13 +149,13 @@ function deleteTask(taskId) {
 
 // Function to edit a task
 function editTask(taskId, updatedFields) {
-  // Fetch the current task to retain its completed status if not included in updatedFields
+  // Fetch the current task to merge with updatedFields
   fetch(`http://localhost:3000/tasks/${taskId}`)
     .then(response => response.json())
     .then(task => {
       // Merge updatedFields with the existing task object
       const editedTask = { ...task, ...updatedFields };
-      
+
       // Send the edited task to the server
       fetch(`http://localhost:3000/tasks/${taskId}`, {
         method: 'PUT',
@@ -173,6 +172,9 @@ function editTask(taskId, updatedFields) {
     })
     .catch(error => console.error('Error fetching task for editing:', error));
 }
+
+
+
 
 
 
